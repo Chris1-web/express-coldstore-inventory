@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 const ItemSchema = new Schema({
   category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
   name: { type: String, required: true },
-  Price: { type: Number, required: true },
-  Summary: { type: String, required: true },
-  NumberInStock: Number,
+  price: { type: Number, required: true },
+  summary: { type: String, required: true },
+  numberInStock: { type: Number, required: true },
 });
 
 ItemSchema.virtual("url").get(function () {
