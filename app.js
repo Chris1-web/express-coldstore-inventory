@@ -3,6 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+require("dotenv").config(); // dotenv to hide API
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -12,8 +13,7 @@ var app = express();
 // set up mongoose connection
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-const mongoDB =
-  "mongodb+srv://christianah:mypassword@cluster0.3wwfmha.mongodb.net/coldstore?retryWrites=true&w=majority";
+const mongoDB = process.env.MONGO_URL;
 
 main().catch((err) => console.log(err));
 async function main() {
