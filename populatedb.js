@@ -5,26 +5,26 @@ console.log(
 );
 
 // Get arguments passed on command line
-var userArgs = process.argv.slice(2);
+const userArgs = process.argv.slice(2);
 /*
 if (!userArgs[0].startsWith('mongodb')) {
     console.log('ERROR: You need to specify a valid mongodb URL as the first argument');
     return
 }
 */
-var async = require("async");
-var Category = require("./models/category");
-var Item = require("./models/item");
+const async = require("async");
+const Category = require("./models/category");
+const Item = require("./models/item");
 
-var mongoose = require("mongoose");
-var mongoDB = userArgs[0];
+const mongoose = require("mongoose");
+const mongoDB = userArgs[0];
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.Promise = global.Promise;
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-var categories = [];
-var items = [];
+const categories = [];
+const items = [];
 
 function categoryCreate(name, description, cb) {
   const category = new Category({ name, description });
@@ -34,36 +34,15 @@ function categoryCreate(name, description, cb) {
       cb(err, null);
       return;
     }
-    console.log("New Category: " + author);
+    console.log("New Category: " + category);
     categories.push(category);
     cb(null, category);
   });
 }
 
-// function bookCreate(title, summary, isbn, author, genre, cb) {
-//   bookdetail = {
-//     title: title,
-//     summary: summary,
-//     author: author,
-//     isbn: isbn,
-//   };
-//   if (genre != false) bookdetail.genre = genre;
-
-//   var book = new Book(bookdetail);
-//   book.save(function (err) {
-//     if (err) {
-//       cb(err, null);
-//       return;
-//     }
-//     console.log("New Book: " + book);
-//     books.push(book);
-//     cb(null, book);
-//   });
-// }
-
 function itemCreate(category, name, price, summary, numberInStock, cb) {
   const item = new Item({ category, name, price, summary, numberInStock });
-  category.save(function (err) {
+  item.save(function (err) {
     if (err) {
       cb(err, null);
       return;
@@ -72,39 +51,6 @@ function itemCreate(category, name, price, summary, numberInStock, cb) {
     items.push(item);
     cb(null, item);
   });
-}
-
-function createGenreAuthors(cb) {
-  async.series(
-    [
-      function (callback) {
-        authorCreate("Patrick", "Rothfuss", "1973-06-06", false, callback);
-      },
-      function (callback) {
-        authorCreate("Ben", "Bova", "1932-11-8", false, callback);
-      },
-      function (callback) {
-        authorCreate("Isaac", "Asimov", "1920-01-02", "1992-04-06", callback);
-      },
-      function (callback) {
-        authorCreate("Bob", "Billings", false, false, callback);
-      },
-      function (callback) {
-        authorCreate("Jim", "Jones", "1971-12-16", false, callback);
-      },
-      function (callback) {
-        genreCreate("Fantasy", callback);
-      },
-      function (callback) {
-        genreCreate("Science Fiction", callback);
-      },
-      function (callback) {
-        genreCreate("French Poetry", callback);
-      },
-    ],
-    // optional callback
-    cb
-  );
 }
 
 function createCategories(cb) {
@@ -127,7 +73,7 @@ function createCategories(cb) {
       function (callback) {
         categoryCreate(
           "Fish",
-          "Fish are aquatic, craniate, gill-bearing animals that lack limbs with digits. Included in this definition are the living hagfish, lampreys, and cartilaginous and bony fish as well as various extinct related groups",
+          "Fish are aquatic, craniate, gill-bearing animals that lack limbs with digits. Included in this definition are the living hagfish, lampreys, and cartilaginous and bony fish as well as constious extinct related groups",
           callback
         );
       },
