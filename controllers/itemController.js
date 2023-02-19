@@ -11,6 +11,6 @@ exports.item_create_post = (req, res) => {
   res.send("NOT IMPLEMENTED: Create item post page");
 };
 
-exports.item_create_detail = (req, res) => {
+exports.item_detail = (req, res) => {
   res.send("NOT IMPLEMENTED: single item detail");
 };

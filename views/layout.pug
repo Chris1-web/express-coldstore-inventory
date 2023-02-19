@@ -2,6 +2,10 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
+    link(rel='stylesheet', href='/output.css')
+  body(class="bg-black text-white")
+    nav
+      .logo-container(class="flex justify-center gap-4 pt-10")
+        img(src="/images/logo.png" class="w-24 h-auto")
+        p(class="text-4xl") COLDSTORE
     block content

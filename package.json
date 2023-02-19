@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "serverstart": "DEBUG=express-locallibrary-tutorial:* npm start",
-    "devstart": "nodemon ./bin/www"
+    "devstart": "nodemon ./bin/www",
+    "tailwindstart": "npx tailwind -i ./public/stylesheets/style.css -o ./public/output.css --watch"
   },
   "dependencies": {
     "async": "^3.2.4",
@@ -19,6 +20,7 @@
     "pug": "2.0.0-beta11"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "tailwindcss": "^3.2.7"
   }
 }
