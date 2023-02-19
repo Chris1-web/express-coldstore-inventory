@@ -1,5 +1,6 @@
 extends layout
 include mixins/listCard
+include mixins/loaderIcon
 
 block content
   ul(class="flex justify-center text-3xl gap-8 cursor-pointer")
@@ -9,14 +10,15 @@ block content
     .right-nav(class="flex gap-5")
       li(class="p-4") Add Categories 
       li(class="p-4") Add Items 
-  //- List of categories
+  //- Content
   //- Heading
-  div(class="container max-w-7xl mx-auto bg-custom-yellow h-custom-screen-80")
+  div(class="container max-w-7xl mx-auto bg-custom-yellow h-custom-screen-80 rounded-t-3xl")
     ul(class="flex justify-center p-10")
       li 
         button(class="flex bg-yellow-500 items-center border-2 rounded-xl gap-4 p-2 px-6") 
           img(src='/images/plus-circle.png')
           p(class="text-2xl") New
+    //- list of categories
     div.flex.flex-col.gap-3
       +listCard("Chicken")
       +listCard("Chicken")
