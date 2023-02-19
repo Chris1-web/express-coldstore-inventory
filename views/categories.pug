@@ -1,4 +1,19 @@
 extends layout
 
 block content
-  h1 Welcome to homepage
+  ul(class="flex justify-center text-3xl gap-8 cursor-pointer")
+    .left-nav(class="flex gap-5")
+      li(class="p-4 border-2 border-transparent bg-custom-yellow text-blue-600 rounded-t-3xl ml-2") Categories 
+      li(class="p-4") Items 
+    .right-nav(class="flex gap-5")
+      li(class="p-4") Add Categories 
+      li(class="p-4") Add Items 
+  //- List of categories
+  //- Heading
+  div(class="container max-w-7xl mx-auto bg-custom-yellow h-custom-screen-80")
+    ul(class="flex justify-between p-10")
+      li(class="text-slate-400 text-3xl") Categories 
+      li 
+        button(class="flex bg-yellow-500 items-center border-2 rounded-xl gap-4 p-2 px-4") 
+          img(src='/images/plus-circle.png')
+          p New
