@@ -5,7 +5,7 @@ include mixins/overlay
 
 block content
   //- overlay background with category details
-  +overlay("Chicken", "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem dolores veniam molestias minus commodi atque distinctio nostrum velit, nobis expedita error ad iure? Inventore veniam eos tempora et quis ut! Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+  //- +overlay("Chicken", "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem dolores veniam molestias minus commodi atque distinctio nostrum velit, nobis expedita error ad iure? Inventore veniam eos tempora et quis ut! Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
 
   //- navigation from mixins
   +nav("categories")
@@ -21,4 +21,4 @@ block content
     //- list of categories
     div.flex.flex-col.gap-3
       each category in categories_list
-        +listCard(category.name)
+        +listCard(category)

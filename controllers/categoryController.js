@@ -19,5 +19,6 @@ exports.category_create_post = (req, res) => {
 };
 
 exports.category_detail = (req, res) => {
-  res.send("NOT IMPLEMENTED: single category detail");
+  const { categoryId } = req.params;
+  console.log(categoryId);
 };
