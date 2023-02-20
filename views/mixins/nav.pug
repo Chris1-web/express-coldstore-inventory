@@ -1,0 +1,12 @@
+mixin nav(name)
+    ul(class="flex justify-center text-3xl gap-8 cursor-pointer")
+        .left-nav(class="flex gap-5")
+        li(class=(name ==="categories" ? 'active' : 'p-4'))
+            a(href="../store/categories") Categories
+        li(class=(name === 'items' ? "active" : "p-4"))
+            a(href="../store/items") Items
+        .right-nav(class="flex gap-5")
+        li(class=(name === 'add-category' ? 'active': 'p-4'))
+            a(href="../store/category/create") Add Categories 
+        li(class=(name === 'add-item' ? 'active': 'p-4')) 
+            a(href="../store/item/create") Add Items

@@ -5,3 +5,16 @@
 html {
   font-size: 62.5%;
 }
+
+.active {
+  border: 0.2rem;
+  border-color: transparent;
+  --tw-bg-opacity: 1;
+  background-color: rgb(244 237 232 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity));
+  border-top-left-radius: 1.5rem /* 24px */;
+  border-top-right-radius: 1.5rem /* 24px */;
+  margin-left: 0.5rem /* 8px */;
+  padding: 1rem;
+}
