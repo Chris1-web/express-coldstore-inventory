@@ -18,7 +18,11 @@ exports.category_create_post = (req, res) => {
   res.send("NOT IMPLEMENTED: Create Category post page");
 };
 
-exports.category_detail = (req, res) => {
+exports.category_detail = (req, res, next) => {
   const { categoryId } = req.params;
-  console.log(categoryId);
+  Category.findById(categoryId).exec(function (err, category) {
+    if (err) return next(err);
+    console.log(category);
+    res.render("categories", { category });
+  });
 };
