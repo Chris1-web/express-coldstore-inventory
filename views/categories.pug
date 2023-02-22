@@ -1,5 +1,5 @@
 extends layout
-include mixins/listCard
+include mixins/categoriesList
 include mixins/nav
 
 block content
@@ -10,7 +10,7 @@ block content
 
   //- Heading
   div(class="container max-w-7xl mx-auto bg-custom-yellow h-custom-screen-80 rounded-t-3xl")
-    ul(class="flex justify-center p-10")
+    ul(class="flex justify-center p-10") 
       li 
         button(class="flex bg-yellow-500 items-center border-2 rounded-xl gap-4 p-2 px-6") 
           img(src='/images/plus-circle.png')
@@ -32,5 +32,5 @@ block content
       //- list of categories
       div.flex.flex-col.gap-3
         each category in categories_list
-          +listCard(category)
+          +categoriesList(category)
     

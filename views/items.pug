@@ -1,0 +1,25 @@
+extends layout 
+include mixins/nav
+include mixins/itemsList
+
+block content
+    +nav("items")
+
+    div(class="container max-w-7xl mx-auto bg-custom-yellow h-custom-screen-80 rounded-t-3xl")
+        div(class="top-continer flex justify-between mx-20 p-10")
+            .categories-dropdown.flex.items-center.gap-2
+                label(for="category_name" class="text-slate-500 text-3xl") Category: 
+                select(name="category" id="category_name" class="text-3xl w-full bg-gray-50 border border-grey-300 text-slate-500 rounded-lg block p-2.5") 
+                    option(value="all" selected) All
+                    option(value="chicken") Chicken
+                    option(value="gizzard") Gizzard
+                    option(value="turkey") Turkey
+            .add-new-item
+                button(class="bg-yellow-500 p-2 px-6 border-2 rounded-xl") 
+                    a(href="/item/create" class="flex items-center gap-4") 
+                        img(src="/images/plus-circle.png")
+                        p(class="text-2xl") New
+
+        div(class="categories-cards flex flex-col gap-5 mx-20")
+            +itemsList()
+            +itemsList()

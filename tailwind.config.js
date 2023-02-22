@@ -8,7 +8,7 @@ module.exports = {
       }),
       colors: {
         "custom-yellow": "#F4EDE8",
-        "custom-blue": "2E2BA8",
+        "custom-blue": "#2E2BA8",
       },
     },
   },

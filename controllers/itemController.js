@@ -1,6 +1,6 @@
 // Display list of all items
 exports.item_list = (req, res) => {
-  res.send("NOT IMPLEMENTED: Item List");
+  res.render("items");
 };
 
 exports.item_create_get = (req, res) => {
