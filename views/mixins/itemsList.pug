@@ -1,12 +1,12 @@
-mixin itemsList()
-    div(class="list-container flex gap-4 items-center p-8 bg-white rounded-2xl")
-        div(class="item-image w-3/4")
-            img(src="/images/chicken-gizzard.jpeg" class="h-auto border-4 border-gray-300 rounded-[50px]")
-        div(class="item-information flex flex-col gap-5")
+mixin itemsList(item)
+    div(class="list-container h-3/6 flex gap-10 items-center p-8 bg-white rounded-2xl")
+        div(class="item-image max-w-[40%]")
+            img(src="/images/chicken-gizzard.jpeg" class="border-4 border-gray-300 rounded-[50px]")
+        div(class="item-information flex flex-col gap-10 justify-between")
             div(class="top-information flex justify-between items-center")
-                h3(class="text-5xl text-custom-blue") Gizzard
-                p(class="bg-transparent border border-custom-blue text-custom-blue text-sm text-center px-6 py-1.5 rounded-3xl") Chicken
-            p(class="text-black text-lg") Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                h3(class="text-5xl text-custom-blue") #{item.name}
+                p(class="bg-transparent border border-custom-blue text-custom-blue text-sm text-center px-6 py-1.5 rounded-3xl") #{item.category.name}
+            p(class="text-black text-lg") #{item.summary}
             div(class="price-information flex justify-between")
-                p(class="font-bold text-black text-2xl") $10
-                p(class="text-slate-500") 10 in stock
+                p(class="font-bold text-black text-2xl") $#{item.price}
+                p(class="text-slate-500") #{item.numberInStock} in stock

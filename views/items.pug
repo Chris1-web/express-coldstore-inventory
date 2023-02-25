@@ -2,24 +2,79 @@ extends layout
 include mixins/nav
 include mixins/itemsList
 
+
 block content
+    //- since database query can be expensive, we'd store the items_list gotten from the database in list_items, so we can filter it
+    //- for future items with certain category query without quering the database again
+    - let list_items = [...items_list]
+    - let filtered_items = [1,2,3]
+
     +nav("items")
 
-    div(class="container max-w-7xl mx-auto bg-custom-yellow h-custom-screen-80 rounded-t-3xl")
+    div(class="container max-w-7xl mx-auto bg-custom-yellow h-custom-screen-80 rounded-t-3xl overflow-scroll")
         div(class="top-continer flex justify-between mx-20 p-10")
-            .categories-dropdown.flex.items-center.gap-2
+            form(class="categories-dropdown flex items-center gap-2")
                 label(for="category_name" class="text-slate-500 text-3xl") Category: 
-                select(name="category" id="category_name" class="text-3xl w-full bg-gray-50 border border-grey-300 text-slate-500 rounded-lg block p-2.5") 
-                    option(value="all" selected) All
-                    option(value="chicken") Chicken
-                    option(value="gizzard") Gizzard
-                    option(value="turkey") Turkey
-            .add-new-item
+                select(name="category" id="category_name" type="select" class="text-3xl w-full bg-gray-50 border border-grey-300 text-slate-500 rounded-lg block p-2.5") 
+                    option(value="all") All
+                    each category in categories_list
+                        option(value=category._id) #{category.name}
+            div(class="add-new-item")
                 button(class="bg-yellow-500 p-2 px-6 border-2 rounded-xl") 
-                    a(href="/item/create" class="flex items-center gap-4") 
+                    a(href="/store/item/create" class="flex items-center gap-4") 
                         img(src="/images/plus-circle.png")
                         p(class="text-2xl") New
 
-        div(class="categories-cards flex flex-col gap-5 mx-20")
-            +itemsList()
-            +itemsList()
+        div(class="categories-cards flex flex-col gap-7 mx-20")
+            each item in list_items
+                +itemsList(item)
+        |
+        hr
+        |
+        div(class="filtered-category-card flex-col gap-7 mx-20 hidden")
+
+        //- if filter is clicked insert html into here and hide the top one 
+
+    script. 
+        const categoryName = document.querySelector("#category_name");
+        const filteredCategoryCard = document.querySelector(".filtered-category-card");
+        const originalCategoryCard = document.querySelector(".categories-cards");
+
+        categoryName.addEventListener("change", (event)=>{
+            //- when a category name is chosen, filter the list items gotten from the route to contain only items with the chosen category
+            const oldList = [...!{JSON.stringify(list_items)}]
+            const filteredList = oldList.filter((item)=>{
+                return item.category._id === event.target.value
+            })
+
+            //- if the category chosen is all, simple hide the div with filtered-category-card class while the div with the categories-cards class is shown
+            //- else the div with filtered-category-card class is shown while the categories-cards class is hidden if any other option is chosen the filtered list is iterated and displayed
+            if(event.target.value === 'all') {
+                filteredCategoryCard.classList.add("hidden")
+                originalCategoryCard.classList.remove('hidden');
+            } else {
+                originalCategoryCard.classList.add('hidden');
+                filteredCategoryCard.innerHTML = '';
+                filteredCategoryCard.classList.remove("hidden");
+                filteredCategoryCard.classList.add("flex");
+                filteredList.map((items)=>{
+                    filteredCategoryCard.insertAdjacentHTML("beforeend", 
+                    `<div class="list-container h-3/6 flex gap-10 items-center p-8 bg-white rounded-2xl">
+                        <div class="item-image max-w-[40%]">
+                            <img src="/images/chicken-gizzard.jpeg" class="border-4 border-gray-300 rounded-[50px]" />
+                        </div>
+                        <div class="item-information flex flex-col gap-10 justify-between">
+                            <div class="top-information flex justify-between items-center">
+                                <h3 class="text-5xl text-custom-blue">${items.name}</h3>
+                                <p class="bg-transparent border border-custom-blue text-custom-blue text-sm text-center px-6 py-1.5 rounded-3xl">${items.category.name}</p>
+                            </div>
+                            <p class="text-black text-lg">${items.summary}</p>
+                            <div class="price-information flex justify-between">
+                                <p class="font-bold text-black text-2xl">$${items.price}</p>
+                                <p class="text-slate-500"> ${items.numberInStock} in stock</p>
+                            </div>
+                        </div>
+                    </div>`)
+                })
+            }
+        })

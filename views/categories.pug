@@ -9,25 +9,25 @@ block content
   +nav("categories")
 
   //- Heading
-  div(class="container max-w-7xl mx-auto bg-custom-yellow h-custom-screen-80 rounded-t-3xl")
+  div(class="container max-w-7xl mx-auto bg-custom-yellow h-custom-screen-80 over-scroll rounded-t-3xl")
     ul(class="flex justify-center p-10") 
       li 
         button(class="flex bg-yellow-500 items-center border-2 rounded-xl gap-4 p-2 px-6") 
           img(src='/images/plus-circle.png')
-          p(class="text-2xl") New
+          a(href="/store/category/create" class="text-2xl") New
 
     //- if we are looking at a single category
     if category 
       div(class="max-w-3xl flex flex-col gap-4 my-0.5 mx-auto bg-black px-10 py-10")
         div(class="top flex gap-5 justify-start items-center")
           p(class="")
-            a(href="../../store/categories")
+            a(href="/store/categories")
               img(src="/images/back.png", alt="go back arrow")
           p(class="text-4xl text-white") #{category.name}
         div(class="middle")
           p(class="text-gray-500 text-2xl") #{category.description}
         div(class="bottom")
-          a(href="../../store/items" class="text-yellow-500 underline text-2xl") View Items
+          a(href="/store/items" class="text-yellow-500 underline text-2xl") View Items
     else 
       //- list of categories
       div.flex.flex-col.gap-3

@@ -5,7 +5,6 @@ exports.category_list = (req, res, next) => {
   Category.find({}).exec(function (err, categories_list) {
     if (err) return next(err);
     // Successful, so render
-    console.log(categories_list);
     res.render("categories", { title: "Categories", categories_list });
   });
 };
