@@ -21,7 +21,6 @@ exports.category_detail = (req, res, next) => {
   const { categoryId } = req.params;
   Category.findById(categoryId).exec(function (err, category) {
     if (err) return next(err);
-    console.log(category);
     res.render("categories", { category });
   });
 };

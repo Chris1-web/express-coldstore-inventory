@@ -15,14 +15,10 @@ exports.item_list = (req, res, next) => {
     },
     (err, results) => {
       if (err) return next(err);
-      function checkCategoryID() {
-        return "hello world";
-      }
       res.render("items", {
         title: "Items",
         items_list: results.items_list,
         categories_list: results.categories_list,
-        category_id: checkCategoryID,
       });
     }
   );
@@ -36,6 +32,36 @@ exports.item_create_post = (req, res) => {
   res.send("NOT IMPLEMENTED: Create item post page");
 };
 
-exports.item_detail = (req, res) => {
-  res.send("NOT IMPLEMENTED: single item detail");
+exports.item_detail = (req, res, next) => {
+  const { categoryId } = req.params;
+  async.parallel(
+    {
+      filtered_items_list(callback) {
+        Item.find({ category: categoryId })
+          .populate("category", "name")
+          .exec(callback);
+      },
+      categories_list(callback) {
+        Category.find({}, "name").exec(callback);
+      },
+    },
+    (err, results) => {
+      if (err) return next(err);
+      // console.log(results);
+      res.render("items", {
+        category_id: categoryId,
+        categories_list: results.categories_list,
+        filtered_items_list: results.filtered_items_list,
+      });
+    }
+  );
+};
+
+exports.item_detail_post = (req, res, next) => {
+  const { category } = req.body;
+  if (category === "all") {
+    res.redirect("/store/items");
+  } else {
+    res.redirect(`/store/item/${category}`);
+  }
 };

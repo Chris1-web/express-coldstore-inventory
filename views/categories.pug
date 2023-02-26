@@ -27,7 +27,7 @@ block content
         div(class="middle")
           p(class="text-gray-500 text-2xl") #{category.description}
         div(class="bottom")
-          a(href="/store/items" class="text-yellow-500 underline text-2xl") View Items
+          a(href=`/store/item/${category._id}` class="text-yellow-500 underline text-2xl") View Items
     else 
       //- list of categories
       div.flex.flex-col.gap-3
