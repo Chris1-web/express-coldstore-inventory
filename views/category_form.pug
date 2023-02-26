@@ -8,10 +8,10 @@ block content
     div(class="container max-w-7xl mx-auto bg-custom-yellow h-custom-screen-80 over-scroll rounded-t-3xl")
         p(class="text-5xl px-10 py-10 mx-10 text-slate-400") Add Category
         
-        if error
-            ul(class="error-message px-10 mx-10 flex gap-2") 
-                li(class="text-red-600 text-xl") Error
-                li(class="text-red-600 text-xl") Error
+        if errors
+            each error in errors
+                ul(class="error-message px-10 mx-10 flex gap-2") 
+                    li(class="text-red-600 text-xl") #{error.msg}
 
         form(class="flex flex-col gap-10 px-20" method="post" action="/store/category/create")
             div(class="name-container flex flex-col gap-2")
