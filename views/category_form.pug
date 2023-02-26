@@ -1,0 +1,23 @@
+extends layout 
+include mixins/nav
+
+block content 
+    +nav("add-category")
+
+    //- Heading
+    div(class="container max-w-7xl mx-auto bg-custom-yellow h-custom-screen-80 over-scroll rounded-t-3xl")
+        p(class="text-5xl p-10 py-15 mx-10 text-slate-400") Add Category
+
+        form(class="flex flex-col gap-10 px-20")
+            div(class="name-container flex flex-col gap-2")
+                label(for="category_name" class="text-black text-4xl") Name *
+                p(class="text-slate-400") 100 characters max
+                input(id="category_name", name="name" type="text" class="w-3/5 p-3 border text-2xl border-gray-400 rounded-2xl text-black focus:border-yellow-500 outline-none")
+            div(class="description-container flex flex-col gap-2")
+                label(for="category_description" class="text-black text-4xl") Description *
+                p(class="text-slate-400") 100 characters min
+                textarea(id="category_description" name="description", class="w-3/5 p-3 border text-2xl rounded-2xl border-gray-400 text-black focus:border-yellow-500 outline-none" rows="15")
+            button(class="flex bg-yellow-500 justify-center py-3 px-5 w-1/5 gap-3 text-3xl font-bold") 
+                img(src="/images/mark.png") 
+                p Publish
+                

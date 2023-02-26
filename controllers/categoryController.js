@@ -10,7 +10,7 @@ exports.category_list = (req, res, next) => {
 };
 
 exports.category_create_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Create Category get page");
+  res.render("category_form");
 };
 
 exports.category_create_post = (req, res) => {
