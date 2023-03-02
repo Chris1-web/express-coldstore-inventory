@@ -25,7 +25,8 @@ exports.item_list = (req, res, next) => {
 };
 
 exports.item_create_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Create item get page");
+  // res.send("NOT IMPLEMENTED: Create item get page");
+  res.render("item_form");
 };
 
 exports.item_create_post = (req, res) => {

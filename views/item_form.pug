@@ -1,0 +1,9 @@
+extends layout 
+include mixins/nav
+
+block content 
+    +nav("add-item")
+
+    //- Heading
+    div(class="container max-w-7xl mx-auto bg-custom-yellow h-custom-screen-80 over-scroll rounded-t-3xl")
+        p(class='text-slate-500 mx-10 px-10 py-10 text-5xl') Add Items

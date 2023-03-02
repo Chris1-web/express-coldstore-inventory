@@ -35,7 +35,10 @@ exports.category_create_post = [
     });
     // if there are errors
     if (!errors.isEmpty()) {
-      res.render("category_form", { title: "Add Category", errors });
+      res.render("category_form", {
+        title: "Add Category",
+        errors: errors.array(),
+      });
       return;
     }
     Category.findOne({ name: req.body.name }).exec((err, found_category) => {
