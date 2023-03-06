@@ -5,5 +5,51 @@ block content
     +nav("add-item")
 
     //- Heading
-    div(class="container max-w-7xl mx-auto bg-custom-yellow h-custom-screen-80 over-scroll rounded-t-3xl")
-        p(class='text-slate-500 mx-10 px-10 py-10 text-5xl') Add Items
+    div(class="max-w-7xl mx-auto bg-custom-yellow h-custom-screen-80 overflow-scroll rounded-t-3xl")
+        p(class='text-5xl px-10 py-8 mx-10 text-slate-400') Add Item
+
+        form(class="text-slate-500 flex flex-col px-20" method="post")
+            label(for="item-image" class="text-black text-3xl pb-3") Picture 
+            div(class="image-upload-container flex justify-between items-center bg-white w-3/5 p-5 mb-7 border border-dashed border-slate-400")
+                img(src='/images/imgicon.png' class="w-12 h-auto")
+                div(class="text-slate-400")
+                    p(class="text-3xl") Upload a picture of your item.
+                    p(class="text-sm") SVG, JPG, PNG (rec. 700px x 430px)
+                div(class="image-file")
+                    input(type="file" class="hidden" name="item-image" id="file-upload")
+                    div(class="browse-btn cursor-pointer border border-dashed px-5 py-2 border-slate-400 rounded-xl") Browse
+            div(class="item-name-container mb-7")
+                label(id="item-name" class="text-black text-3xl pb-4") Name *
+                p(class="text-lg text-slate-400 pb-2") 100 characters max 
+                input(type="text" name="item-name" class="border-2 rounded-xl w-3/5 p-2 text-sm focus:border-yellow-500 outline-none" min="1" max="100" required)
+            div(class="summary-container mb-7")
+                label(class="text-black text-3xl pb-4" id="item-summary") Summary *
+                p(class="text-lg text-slate-400 pb-2") 100 characters min 
+                textarea(type="text" name="item-summary" rows="14" class="border-2 rounded-xl w-3/5 p-2 text-sm focus:border-yellow-500 outline-none" minLength="100" required)
+            div(class="item-category-container mb-7")
+                label(for="chosen_category_name" class="text-black text-3xl mb-4") Category *
+                select(name="chosen_category" id="category_name" type="select" class="font-light text-black text-3xl w-3/5 bg-white border border-grey-300 rounded-lg block p-2.5" required) 
+                    option(value="all") All
+                    option(value="Chicken") Chicken
+                    option(value="Turkey") Turkey
+                    option(value="Drink") Drink
+            div(class="stock-number-container flex flex-col mb-4")
+                label(for="stock_number" class="text-black text-3xl mb-0.5") Number In Stock *
+                input(type="number" min=0 id="stock_number" class="border-2 w-3/5 p-2 text-sm rounded-xl focus:border-yellow-500 outline-none" required)
+            div(class="price-container flex flex-col mb-4")
+                label(for="price" class="text-black text-3xl mb-0.5") Price *
+                input(type="number" min=0 id="price" class="border-2 w-3/5 p-2 text-sm rounded-xl focus:border-yellow-500 outline-none" required)
+            button(class="flex text-white bg-yellow-500 justify-center py-3 px-5 w-1/5 mb-4 gap-3 text-3xl font-bold border rounded-2xl") 
+                img(src="/images/mark.png") 
+                p Publish
+
+
+    script.
+        const fileUploadHiddenButton = document.querySelector("#file-upload");
+        const browseButton = document.querySelector(".browse-btn");
+
+        const callHiddenBrowseButton = ()=> {
+            fileUploadHiddenButton.click()
+        }
+
+        browseButton.addEventListener("click", callHiddenBrowseButton)
