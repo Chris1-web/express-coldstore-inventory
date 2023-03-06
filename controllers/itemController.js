@@ -25,12 +25,42 @@ exports.item_list = (req, res, next) => {
 };
 
 exports.item_create_get = (req, res) => {
-  // res.send("NOT IMPLEMENTED: Create item get page");
-  res.render("item_form", { title: "Create New Item" });
+  async.parallel(
+    {
+      categories_list(callback) {
+        Category.find({}, "name").exec(callback);
+      },
+    },
+    (err, results) => {
+      if (err) return next(err);
+      res.render("item_form", {
+        title: "Create New Item",
+        categories_list: results.categories_list,
+      });
+    }
+  );
 };
 
 exports.item_create_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: Create item post page");
+  const { item_name, item_summary, chosen_category, stock_number, price } =
+    req.body;
+  async.parallel(
+    {
+      item(callback) {
+        Item.find({ name: item_name.trim(), category: chosen_category }).exec(
+          callback
+        );
+      },
+    },
+    (err, results) => {
+      // if item with exact category exists, redirect to existing page detail
+      if (results.item.length !== 0) {
+        res.redirect(`/store/item/${results.item[0].category}`);
+        return;
+      }
+      // if item does with exact category doesn't exit, create a new item
+    }
+  );
 };
 
 exports.item_detail = (req, res, next) => {
