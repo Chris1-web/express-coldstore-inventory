@@ -8,6 +8,11 @@ block content
     div(class="max-w-7xl mx-auto bg-custom-yellow h-custom-screen-80 overflow-scroll rounded-t-3xl")
         p(class='text-5xl px-10 py-8 mx-10 text-slate-400') Add Item
 
+        if errors 
+            each error in errors 
+                ul(class="error-message px-10 mx-10 flex gap-2") 
+                    li(class="text-red-600 text-xl") #{error.msg}
+
         form(class="text-slate-500 flex flex-col px-20" method="post")
             label(for="item_image" class="text-black text-3xl pb-3") Picture 
             div(class="image-upload-container flex justify-between items-center bg-white w-3/5 p-5 mb-7 border border-dashed border-slate-400")
@@ -21,11 +26,11 @@ block content
             div(class="item-name-container mb-7")
                 label(for="item_name" class="text-black text-3xl pb-4") Name *
                 p(class="text-lg text-slate-400 pb-2") 100 characters max 
-                input(type="text" name="item_name" id="item_name" class="border-2 rounded-xl w-3/5 p-2 text-sm focus:border-yellow-500 outline-none" min="1" max="100" required)
+                input(type="text" name="item_name" id="item_name" class="border-2 rounded-xl w-3/5 p-2 text-2xl focus:border-yellow-500 outline-none" min="1" max="100" required)
             div(class="summary-container mb-7")
                 label(class="text-black text-3xl pb-4" id="item_summary") Summary *
-                p(class="text-lg text-slate-400 pb-2") 100 characters min 
-                textarea(type="text" name="item_summary" rows="14" class="border-2 rounded-xl w-3/5 p-2 text-sm focus:border-yellow-500 outline-none" minLength="100" required)
+                p(class="text-lg text-slate-400 pb-2") 20 characters min 
+                textarea(type="text" name="item_summary" rows="10" class="border-2 rounded-xl w-3/5 p-2 text-2xl focus:border-yellow-500 outline-none" minLength="20" required)
             div(class="item-category-container mb-7")
                 label(for="chosen_category_name" class="text-black text-3xl mb-4") Category *
                 select(name="chosen_category" id="category_name" type="select" class="font-light text-black text-3xl w-3/5 bg-white border border-grey-300 rounded-lg block p-2.5" required) 
@@ -34,10 +39,10 @@ block content
 
             div(class="stock-number-container flex flex-col mb-4")
                 label(for="stock_number" class="text-black text-3xl mb-0.5") Number In Stock *
-                input(type="number" name="stock_number" min=0 id="stock_number" class="border-2 w-3/5 p-2 text-sm rounded-xl focus:border-yellow-500 outline-none" required)
+                input(type="number" name="stock_number" min=0 id="stock_number" class="border-2 w-3/5 p-2 text-2xl rounded-xl focus:border-yellow-500 outline-none" required)
             div(class="price-container flex flex-col mb-4")
                 label(for="price" class="text-black text-3xl mb-0.5") Price *
-                input(type="number" name="price" min=0 id="price" class="border-2 w-3/5 p-2 text-sm rounded-xl focus:border-yellow-500 outline-none" required)
+                input(type="number" name="price" min=0 id="price" class="border-2 w-3/5 p-2 text-2xl rounded-xl focus:border-yellow-500 outline-none" required)
             button(class="flex text-white bg-yellow-500 justify-center py-3 px-5 w-1/5 mb-4 gap-3 text-3xl font-bold border rounded-2xl") 
                 img(src="/images/mark.png") 
                 p Publish

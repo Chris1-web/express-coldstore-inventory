@@ -1,6 +1,7 @@
 const Item = require("../models/item");
 const Category = require("../models/category");
 const async = require("async");
+const { body, validationResult } = require("express-validator");
 
 // Display list of all items
 exports.item_list = (req, res, next) => {
@@ -41,27 +42,63 @@ exports.item_create_get = (req, res) => {
   );
 };
 
-exports.item_create_post = (req, res) => {
-  const { item_name, item_summary, chosen_category, stock_number, price } =
-    req.body;
-  async.parallel(
-    {
-      item(callback) {
-        Item.find({ name: item_name.trim(), category: chosen_category }).exec(
-          callback
-        );
-      },
-    },
-    (err, results) => {
-      // if item with exact category exists, redirect to existing page detail
-      if (results.item.length !== 0) {
-        res.redirect(`/store/item/${results.item[0].category}`);
+exports.item_create_post = [
+  body("item_name", "Item Name is required")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("item_summary", "Item Summary is required")
+    .trim()
+    .isLength({ min: 20 })
+    .escape(),
+  body("stock_number", "A Number is required").isInt({ min: 1 }).escape(),
+  body("chosen_category", "A Category is required").escape(),
+  body("price", "An Item must be priced").isInt({ min: 1 }).escape(),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+
+    const item = new Item({
+      category: req.body.chosen_category,
+      name: req.body.item_name,
+      price: req.body.price,
+      summary: req.body.item_summary,
+      numberInStock: req.body.stock_number,
+    });
+
+    // if errors is not empty
+    if (!errors.isEmpty()) {
+      // get all categories for form
+      Category.find({}).exec((err, categories_list) => {
+        if (err) return next(err);
+        res.render("item_form", {
+          title: "New Item",
+          categories_list,
+          errors: errors.array(),
+        });
         return;
-      }
-      // if item does with exact category doesn't exit, create a new item
+      });
     }
-  );
-};
+
+    // if Errors is empty, check if same item exists in the same category, if so, redirect to item detail page else create new item
+    Item.findOne({
+      name: req.body.item_name,
+      category: req.body.chosen_category,
+    }).exec((err, found_item) => {
+      if (err) return next(err);
+      if (found_item) {
+        res.redirect(`/store/item/${found_item.category}`);
+        return;
+      } else {
+        item.save((err) => {
+          if (err) return next(err);
+          // successful, so redirect
+          res.redirect(`/store/item/${item.category}`);
+        });
+      }
+    });
+  },
+];
 
 exports.item_detail = (req, res, next) => {
   const { categoryId } = req.params;

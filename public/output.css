@@ -572,6 +572,14 @@ video {
   margin-bottom: 0.125rem;
 }
 
+.mb-0 {
+  margin-bottom: 0px;
+}
+
+.mb-0\.5 {
+  margin-bottom: 0.125rem;
+}
+
 .mb-10 {
   margin-bottom: 2.5rem;
 }
@@ -580,24 +588,8 @@ video {
   margin-bottom: 1rem;
 }
 
-.mb-5 {
-  margin-bottom: 1.25rem;
-}
-
 .mb-7 {
   margin-bottom: 1.75rem;
-}
-
-.mb-2 {
-  margin-bottom: 0.5rem;
-}
-
-.mb-0 {
-  margin-bottom: 0px;
-}
-
-.mb-0\.5 {
-  margin-bottom: 0.125rem;
 }
 
 .block {
@@ -622,14 +614,6 @@ video {
 
 .h-custom-screen-80 {
   height: 80vh;
-}
-
-.h-full {
-  height: 100%;
-}
-
-.max-h-full {
-  max-height: 100%;
 }
 
 .w-1\/5 {
@@ -674,14 +658,6 @@ video {
 
 .flex-col {
   flex-direction: column;
-}
-
-.items-start {
-  align-items: flex-start;
-}
-
-.items-end {
-  align-items: flex-end;
 }
 
 .items-center {
@@ -793,11 +769,6 @@ video {
   border-color: rgb(148 163 184 / var(--tw-border-opacity));
 }
 
-.border-yellow-500 {
-  --tw-border-opacity: 1;
-  border-color: rgb(234 179 8 / var(--tw-border-opacity));
-}
-
 .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
@@ -847,12 +818,12 @@ video {
   padding: 1rem;
 }
 
-.p-8 {
-  padding: 2rem;
-}
-
 .p-5 {
   padding: 1.25rem;
+}
+
+.p-8 {
+  padding: 2rem;
 }
 
 .px-10 {
@@ -905,42 +876,34 @@ video {
   padding-bottom: 0.75rem;
 }
 
-.py-5 {
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
-}
-
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+
+.py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 
 .pb-2 {
   padding-bottom: 0.5rem;
 }
 
-.pb-6 {
-  padding-bottom: 1.5rem;
-}
-
-.pt-10 {
-  padding-top: 2.5rem;
+.pb-3 {
+  padding-bottom: 0.75rem;
 }
 
 .pb-4 {
   padding-bottom: 1rem;
 }
 
-.pb-3 {
-  padding-bottom: 0.75rem;
+.pt-10 {
+  padding-top: 2.5rem;
 }
 
-.pb-10 {
-  padding-bottom: 2.5rem;
-}
-
-.pb-5 {
-  padding-bottom: 1.25rem;
+.pb-1 {
+  padding-bottom: 0.25rem;
 }
 
 .text-center {
@@ -1059,10 +1022,6 @@ html {
   border-top-right-radius: 1.5rem /* 24px */;
   margin-left: 0.5rem /* 8px */;
   padding: 1rem;
-}
-
-.focus\:border-2:focus {
-  border-width: 2px;
 }
 
 .focus\:border-yellow-500:focus {
