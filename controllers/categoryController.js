@@ -71,7 +71,7 @@ exports.category_detail = (req, res, next) => {
 };
 
 // display chosen category form with input
-exports.category_update_get = (req, res) => {
+exports.category_update_get = (req, res, next) => {
   const { categoryId } = req.params;
   async.parallel(
     {
@@ -80,6 +80,7 @@ exports.category_update_get = (req, res) => {
       },
     },
     (error, results) => {
+      if (error) return next(err);
       res.render("category_form", {
         title: "Edit Category",
         category: results.category,
@@ -110,23 +111,15 @@ exports.category_update_post = [
     });
     // if there are errors, redisplay the form with errors
     if (!errors.isEmpty()) {
-      async.parallel(
-        {
-          category(callback) {
-            Category.findById(categoryId).exec(callback);
-          },
-        },
-        (errors, results) => {
-          res.render("category_form", {
-            title: "Edit Category",
-            category: results.category,
-            errors: errors.array(),
-          });
-        }
-      );
+      Category.findById(categoryId).exec((errors, results) => {
+        res.render("category_form", {
+          title: "Edit Category",
+          category: results.category,
+          errors: errors.array(),
+        });
+      });
       return;
     }
-    console.log(req.body);
     // if there are no errors, data form is valid. Update the record
     Category.findByIdAndUpdate(categoryId, category, {}, (err, thecategory) => {
       if (err) return next(err);

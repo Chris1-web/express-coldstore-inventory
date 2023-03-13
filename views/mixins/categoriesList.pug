@@ -4,7 +4,10 @@ mixin categoriesList(category)
         ul(class="icon flex items-center gap-4 cursor-pointer") 
             li
                 a(href=`${category.url}/update`)
-                    img(src="/images/pen.png" class="w-8 h-auto")
+                    img(src="/images/edit.png" class="w-10 h-auto")
             li 
                 a(href=category.url)
-                    img(src="/images/open-arrow.png" class="w-15 h-auto")
+                    img(src="/images/down-arrow.png" class="w-10 h-auto")
+            li 
+                a(href=category.url)
+                    img(src="/images/delete.png" class="w-10 h-auto")
