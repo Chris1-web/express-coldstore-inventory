@@ -2,8 +2,9 @@ mixin categoriesList(category)
     div(id="card-container" class="flex justify-between items-center px-10 py-2 mx-20 border-2 border-gray-400 bg-white")
         p(class="text-blue-500 text-4xl") #{category.name}
         ul(class="icon flex items-center gap-4 cursor-pointer") 
-            li 
-                img(src="/images/pen.png" class="w-8 h-auto")
+            li
+                a(href=`${category.url}/update`)
+                    img(src="/images/pen.png" class="w-8 h-auto")
             li 
                 a(href=category.url)
                     img(src="/images/open-arrow.png" class="w-15 h-auto")

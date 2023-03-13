@@ -1,3 +1,4 @@
+const async = require("async");
 const Category = require("../models/category");
 const { body, validationResult } = require("express-validator");
 
@@ -68,3 +69,69 @@ exports.category_detail = (req, res, next) => {
     res.render("categories", { category });
   });
 };
+
+// display chosen category form with input
+exports.category_update_get = (req, res) => {
+  const { categoryId } = req.params;
+  async.parallel(
+    {
+      category(callback) {
+        Category.findById(categoryId).exec(callback);
+      },
+    },
+    (error, results) => {
+      res.render("category_form", {
+        title: "Edit Category",
+        category: results.category,
+      });
+    }
+  );
+};
+
+exports.category_update_post = [
+  // validate and sanitize
+  body("name", "Category Name is required")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("description", "Description is required")
+    .trim()
+    .isLength({ min: 100 })
+    .escape(),
+  // process request after validation and santization
+  (req, res, next) => {
+    const { categoryId } = req.params;
+    const errors = validationResult(req);
+    // create a category object with escaped and trimmed data
+    const category = new Category({
+      name: req.body.name,
+      description: req.body.description,
+      _id: categoryId,
+    });
+    // if there are errors, redisplay the form with errors
+    if (!errors.isEmpty()) {
+      async.parallel(
+        {
+          category(callback) {
+            Category.findById(categoryId).exec(callback);
+          },
+        },
+        (errors, results) => {
+          res.render("category_form", {
+            title: "Edit Category",
+            category: results.category,
+            errors: errors.array(),
+          });
+        }
+      );
+      return;
+    }
+    console.log(req.body);
+    // if there are no errors, data form is valid. Update the record
+    Category.findByIdAndUpdate(categoryId, category, {}, (err, thecategory) => {
+      if (err) return next(err);
+      // successful, so redirect
+      res.redirect(category.url);
+    });
+  },
+];

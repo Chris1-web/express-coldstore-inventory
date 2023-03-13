@@ -13,6 +13,14 @@ router.get("/categories", category_controller.category_list);
 router.get("/category/create", category_controller.category_create_get);
 router.post("/category/create", category_controller.category_create_post);
 router.get("/category/:categoryId", category_controller.category_detail);
+router.get(
+  "/category/:categoryId/update",
+  category_controller.category_update_get
+);
+router.post(
+  "/category/:categoryId/update",
+  category_controller.category_update_post
+);
 
 // Items Routes
 router.get("/items", item_controller.item_list);
