@@ -133,3 +133,34 @@ exports.item_detail_post = (req, res, next) => {
     res.redirect(`/store/item/${category}`);
   }
 };
+
+exports.item_update_get = (req, res, next) => {
+  const { itemId } = req.params;
+  async.parallel(
+    {
+      item_detail(callback) {
+        Item.findById(itemId).exec(callback);
+      },
+      category_list(callback) {
+        Category.find({}).exec(callback);
+      },
+    },
+    (error, results) => {
+      if (error) return next(err);
+      // select item category
+      for (const category of results.category_list) {
+        if (
+          results.item_detail.category.toString() === category._id.toString()
+        ) {
+          category.checked = "true";
+        }
+      }
+      // console.log(results);
+      res.render("item_form", {
+        title: "Update Item",
+        categories_list: results.category_list,
+        item_detail: results.item_detail,
+      });
+    }
+  );
+};

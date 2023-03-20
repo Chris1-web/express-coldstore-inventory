@@ -10,3 +10,8 @@ mixin itemsList(item)
             div(class="price-information flex justify-between")
                 p(class="font-bold text-black text-2xl") $#{item.price}
                 p(class="text-slate-500") #{item.numberInStock} in stock
+            div(class="update-and-delete flex justify-end gap-2")
+                a(href=`/store${item.url}/update` class="hover:bg-red-400 rounded-xl")
+                    img(src="/images/edit.png" class="w-10 h-auto")
+                a(href="/store/item/create" class="hover:bg-red-400 rounded-xl")
+                    img(src="/images/delete.png" class="w-10 h-auto")

@@ -4,7 +4,7 @@ mixin nav(name)
             li(class=(name ==="categories" ? 'active' : 'p-4'))
                 a(href="/store/categories") Categories
             li(class=(name === 'items' ? "active" : "p-4"))
-                a(href="../../store/items") Items
+                a(href="/store/items") Items
         .right-nav(class="flex gap-5")
             li(class=(name === 'add-category' ? 'active': 'p-4'))
                 a(href="../../store/category/create") Add Categories 
