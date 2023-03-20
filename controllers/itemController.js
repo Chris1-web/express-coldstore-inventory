@@ -146,7 +146,7 @@ exports.item_update_get = (req, res, next) => {
       },
     },
     (error, results) => {
-      if (error) return next(err);
+      if (error) return next(error);
       // select item category
       for (const category of results.category_list) {
         if (
@@ -155,7 +155,6 @@ exports.item_update_get = (req, res, next) => {
           category.checked = "true";
         }
       }
-      // console.log(results);
       res.render("item_form", {
         title: "Update Item",
         categories_list: results.category_list,
@@ -164,3 +163,72 @@ exports.item_update_get = (req, res, next) => {
     }
   );
 };
+
+exports.item_update_post = [
+  body("item_name", "Item Name is required")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("item_summary", "Item Summary is required")
+    .trim()
+    .isLength({ min: 20 })
+    .escape(),
+  body("stock_number", "A Number is required").isInt({ min: 1 }).escape(),
+  body("chosen_category", "A Category is required").escape(),
+  body("price", "An Item must be priced").isInt({ min: 1 }).escape(),
+  (req, res, next) => {
+    const { itemId } = req.params;
+    // get validator errors
+    const errors = validationResult(req);
+    // create an item with trimmed and escaped form data
+    const item = new Item({
+      _id: itemId,
+      category: req.body.chosen_category,
+      name: req.body.item_name,
+      price: req.body.price,
+      summary: req.body.item_summary,
+      numberInStock: req.body.stock_number,
+    });
+
+    // if there are errors in the form
+    if (!errors.isEmpty()) {
+      // find item and list categories
+      async.parallel(
+        {
+          item_detail(callback) {
+            Item.findById(itemId).exec(callback);
+          },
+          category_list(callback) {
+            Category.find({}).exec(callback);
+          },
+        },
+        (err, results) => {
+          if (err) return next(err);
+          // select item category
+          for (const category of results.category_list) {
+            if (
+              results.item_detail.category.toString() ===
+              category._id.toString()
+            ) {
+              category.checked = "true";
+            }
+          }
+          res.render("item_form", {
+            title: "Update Item",
+            categories_list: results.category_list,
+            item_detail: results.item_detail,
+            errors: errors.array(),
+          });
+          return;
+        }
+      );
+    }
+
+    // if there are no errors, find item and update
+    Item.findByIdAndUpdate(itemId, item, {}, (err, newItem) => {
+      if (err) return next(err);
+      // successful, so redirect
+      res.redirect(`/store/item/${newItem.category}`);
+    });
+  },
+];

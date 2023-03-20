@@ -45,7 +45,7 @@ block content
                 input(type="number" name="price" value=(item_detail ? item_detail.price : 0) min=0 id="price" class="border-2 w-3/5 p-2 text-2xl rounded-xl focus:border-yellow-500 outline-none" required)
             button(class="flex text-white bg-yellow-500 justify-center py-3 px-5 w-1/5 mb-4 gap-3 text-3xl font-bold border rounded-2xl") 
                 img(src="/images/mark.png") 
-                p Publish
+                p #{update ? "Update": "Publish"}
 
 
     script.
