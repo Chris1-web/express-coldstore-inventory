@@ -21,6 +21,10 @@ router.post(
   "/category/:categoryId/update",
   category_controller.category_update_post
 );
+router.get(
+  "/category/:categoryId/delete",
+  category_controller.category_delete_get
+);
 
 // Items Routes
 router.get("/items", item_controller.item_list);
@@ -30,5 +34,7 @@ router.post("/item/create", item_controller.item_create_post);
 router.get("/item/:categoryId", item_controller.item_detail); // to get items with particular categories
 router.get("/item/:itemId/update", item_controller.item_update_get);
 router.post("/item/:itemId/update", item_controller.item_update_post);
+router.get("/item/:itemId/delete", item_controller.item_delete_get);
+router.post("/item/:itemId/delete", item_controller.item_delete_post);
 
 module.exports = router;

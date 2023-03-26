@@ -9,5 +9,5 @@ mixin categoriesList(category)
                 a(href=category.url)
                     img(src="/images/down-arrow.png" class="w-10 h-auto")
             li 
-                a(href=category.url)
+                a(href=`${category.url}/delete`)
                     img(src="/images/delete.png" class="w-10 h-auto")

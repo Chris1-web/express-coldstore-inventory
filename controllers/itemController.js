@@ -117,6 +117,7 @@ exports.item_detail = (req, res, next) => {
       if (err) return next(err);
       // console.log(results);
       res.render("items", {
+        title: "search",
         category_id: categoryId,
         categories_list: results.categories_list,
         filtered_items_list: results.filtered_items_list,
@@ -232,3 +233,22 @@ exports.item_update_post = [
     });
   },
 ];
+
+exports.item_delete_get = (req, res, next) => {
+  const { itemId } = req.params;
+  Item.findById(itemId)
+    .populate("category", "name")
+    .exec(function (err, found_item) {
+      if (err) return next(err);
+      res.render("item_delete", { title: "Delete Item", item: found_item });
+    });
+};
+
+exports.item_delete_post = (req, res, next) => {
+  const { itemId } = req.params;
+  Item.findByIdAndRemove(itemId, (err) => {
+    if (err) return next(err);
+    // Success so redirect
+    res.redirect("/store/items");
+  });
+};

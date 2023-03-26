@@ -128,3 +128,8 @@ exports.category_update_post = [
     });
   },
 ];
+
+exports.category_delete_get = (req, res) => {
+  console.log(req.params.categoryId);
+  res.render("category_delete");
+};
