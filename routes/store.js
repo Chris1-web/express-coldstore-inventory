@@ -25,6 +25,10 @@ router.get(
   "/category/:categoryId/delete",
   category_controller.category_delete_get
 );
+router.post(
+  "/category/:categoryId/delete",
+  category_controller.category_delete_post
+);
 
 // Items Routes
 router.get("/items", item_controller.item_list);

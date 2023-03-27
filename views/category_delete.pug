@@ -1,12 +1,21 @@
 extends layout 
 include mixins/nav
+include mixins/itemsList
 
 block content 
     +nav("add-category")
 
-    div(class="max-w-7xl mx-auto bg-custom-yellow h-custom-screen-80 overflow-scroll rounded-t-3xl text-black")
-        h1(class="text-center text-5xl text-red-400 mt-10") Delete Category
-        p(class="text-3xl text-center mt-20") Note that all items in this category will be deleted
-        div(class="flex justify-center items-center pt-5")
-            form(method="post" class="flex flex-col w-1/2")
-                button(class="bg-red-700 text-4xl text-white px-2 py-10 hover:bg-red-900") Delete 
+    div(class="max-w-7xl mx-auto px-5 bg-custom-yellow h-custom-screen-80 overflow-scroll rounded-t-3xl text-black")
+        h1(class="text-center text-4xl text-red-400 mt-10") Delete Category: #{category.name}
+        p(class="text-2xl mt-5 text-grey-400 bg-white mx-10 my-5 p-5") #{category.description}
+
+        if items 
+            p(class="font-bold text-4xl text-center py-5") Delete the following Items before attempting to delete this Category.
+            div(class="categories-cards flex flex-col gap-7 mx-20")
+                each item in items
+                    +itemsList(item)
+        else 
+            p(class="text-3xl text-center mt-20") Do you really want to delete this category?
+            div(class="flex justify-center items-center pt-5")
+                form(method="post" class="flex flex-col w-1/2")
+                    button(class="bg-red-700 text-4xl text-white px-2 py-10 hover:bg-red-900") Delete 

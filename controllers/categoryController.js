@@ -1,5 +1,6 @@
 const async = require("async");
 const Category = require("../models/category");
+const Item = require("../models/item");
 const { body, validationResult } = require("express-validator");
 
 // Displays list of all categories
@@ -129,7 +130,41 @@ exports.category_update_post = [
   },
 ];
 
-exports.category_delete_get = (req, res) => {
-  console.log(req.params.categoryId);
-  res.render("category_delete");
+exports.category_delete_get = (req, res, next) => {
+  const { categoryId } = req.params;
+  async.parallel(
+    {
+      items(callback) {
+        Item.find({ category: categoryId }).populate("category").exec(callback);
+      },
+      category(callback) {
+        Category.findById(categoryId).exec(callback);
+      },
+    },
+    (err, results) => {
+      if (err) return next(err);
+      if (results.items.length === 0) {
+        res.render("category_delete", {
+          title: "Delete Category",
+          category: results.category,
+        });
+      }
+      if (results.items.length > 0) {
+        res.render("category_delete", {
+          title: "Delete Category",
+          items: results.items,
+          category: results.category,
+        });
+      }
+    }
+  );
+};
+
+exports.category_delete_post = (req, res, next) => {
+  const { categoryId } = req.params;
+  Category.findByIdAndRemove(categoryId, (err) => {
+    if (err) return next(err);
+    // successful, so redirect
+    res.redirect(`/store/categories`);
+  });
 };
