@@ -2,6 +2,11 @@ const Item = require("../models/item");
 const Category = require("../models/category");
 const async = require("async");
 const { body, validationResult } = require("express-validator");
+// options for multer
+const multer = require("multer");
+const Image = require("../models/image");
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 // Display list of all items
 exports.item_list = (req, res, next) => {
@@ -43,6 +48,7 @@ exports.item_create_get = (req, res) => {
 };
 
 exports.item_create_post = [
+  upload.single("item_image"),
   body("item_name", "Item Name is required")
     .trim()
     .isLength({ min: 1 })
@@ -54,19 +60,28 @@ exports.item_create_post = [
   body("stock_number", "A Number is required").isInt({ min: 1 }).escape(),
   body("chosen_category", "A Category is required").escape(),
   body("price", "An Item must be priced").isInt({ min: 1 }).escape(),
-
   (req, res, next) => {
     const errors = validationResult(req);
 
+    // create image model
+    const itemImage = new Image({
+      fileName: req.file.originalname,
+      file: {
+        data: req.file.buffer,
+        contentType: req.file.mimetype,
+      },
+    });
+
     const item = new Item({
       category: req.body.chosen_category,
+      image: itemImage._id,
       name: req.body.item_name,
       price: req.body.price,
       summary: req.body.item_summary,
       numberInStock: req.body.stock_number,
     });
 
-    // if errors is not empty
+    // if there is an error, rerender form with errors
     if (!errors.isEmpty()) {
       // get all categories for form
       Category.find({}).exec((err, categories_list) => {
@@ -80,7 +95,7 @@ exports.item_create_post = [
       });
     }
 
-    // if Errors is empty, check if same item exists in the same category, if so, redirect to item detail page else create new item
+    // if there is no error, check if same item exists in the same category, if so, redirect to item detail page else create new item
     Item.findOne({
       name: req.body.item_name,
       category: req.body.chosen_category,
@@ -90,6 +105,10 @@ exports.item_create_post = [
         res.redirect(`/store/item/${found_item.category}`);
         return;
       } else {
+        // save item image
+        itemImage.save((err) => {
+          if (err) return next(err);
+        });
         item.save((err) => {
           if (err) return next(err);
           // successful, so redirect
@@ -115,7 +134,6 @@ exports.item_detail = (req, res, next) => {
     },
     (err, results) => {
       if (err) return next(err);
-      // console.log(results);
       res.render("items", {
         title: "search",
         category_id: categoryId,
