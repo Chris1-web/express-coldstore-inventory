@@ -13,7 +13,10 @@ exports.item_list = (req, res, next) => {
   async.parallel(
     {
       items_list(callback) {
-        Item.find({}).populate("category", "name").exec(callback);
+        Item.find({})
+          .populate("category", "name")
+          .populate("image")
+          .exec(callback);
       },
       categories_list(callback) {
         Category.find({}, "name").exec(callback);
@@ -109,6 +112,7 @@ exports.item_create_post = [
         itemImage.save((err) => {
           if (err) return next(err);
         });
+        // save item
         item.save((err) => {
           if (err) return next(err);
           // successful, so redirect
@@ -126,6 +130,7 @@ exports.item_detail = (req, res, next) => {
       filtered_items_list(callback) {
         Item.find({ category: categoryId })
           .populate("category", "name")
+          .populate("image")
           .exec(callback);
       },
       categories_list(callback) {
