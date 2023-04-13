@@ -66,6 +66,11 @@ exports.item_create_post = [
   (req, res, next) => {
     const errors = validationResult(req);
 
+    // if there is no file
+    if (!req.file) {
+      res.redirect("/item/create");
+    }
+
     // create image model
     const itemImage = new Image({
       fileName: req.file.originalname,
@@ -158,12 +163,13 @@ exports.item_detail_post = (req, res, next) => {
   }
 };
 
+// edit these functionalities
 exports.item_update_get = (req, res, next) => {
   const { itemId } = req.params;
   async.parallel(
     {
       item_detail(callback) {
-        Item.findById(itemId).exec(callback);
+        Item.findById(itemId).populate("image").exec(callback);
       },
       category_list(callback) {
         Category.find({}).exec(callback);
@@ -189,6 +195,7 @@ exports.item_update_get = (req, res, next) => {
 };
 
 exports.item_update_post = [
+  upload.single("item_image"),
   body("item_name", "Item Name is required")
     .trim()
     .isLength({ min: 1 })
@@ -204,16 +211,6 @@ exports.item_update_post = [
     const { itemId } = req.params;
     // get validator errors
     const errors = validationResult(req);
-    // create an item with trimmed and escaped form data
-    const item = new Item({
-      _id: itemId,
-      category: req.body.chosen_category,
-      name: req.body.item_name,
-      price: req.body.price,
-      summary: req.body.item_summary,
-      numberInStock: req.body.stock_number,
-    });
-
     // if there are errors in the form
     if (!errors.isEmpty()) {
       // find item and list categories
@@ -246,14 +243,51 @@ exports.item_update_post = [
           return;
         }
       );
-    }
+    } else {
+      async.parallel(
+        {
+          item(callback) {
+            Item.findById(itemId).exec(callback);
+          },
+        },
+        (error, results) => {
+          if (error) return next(error);
+          const editedImage = new Image({
+            _id: results.item.image,
+            fileName: req.file.originalname,
+            file: {
+              data: req.file.buffer,
+              contentType: req.file.mimetype,
+            },
+          });
+          // create an item with trimmed and escaped form data
+          const item = new Item({
+            _id: itemId,
+            category: req.body.chosen_category,
+            image: editedImage._id,
+            name: req.body.item_name,
+            price: req.body.price,
+            summary: req.body.item_summary,
+            numberInStock: req.body.stock_number,
+          });
 
-    // if there are no errors, find item and update
-    Item.findByIdAndUpdate(itemId, item, {}, (err, newItem) => {
-      if (err) return next(err);
-      // successful, so redirect
-      res.redirect(`/store/item/${newItem.category}`);
-    });
+          // if there are no errors, find item and update
+          Item.findByIdAndUpdate(itemId, item, {}, (err, newItem) => {
+            if (err) return next(err);
+            // successful, so redirect
+            res.redirect(`/store/item/${newItem.category}`);
+          });
+          Image.findByIdAndUpdate(
+            editedImage._id,
+            editedImage,
+            {},
+            (err, newImage) => {
+              if (err) return next(err);
+            }
+          );
+        }
+      );
+    }
   },
 ];
 
