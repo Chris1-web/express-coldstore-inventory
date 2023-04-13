@@ -295,6 +295,7 @@ exports.item_delete_get = (req, res, next) => {
   const { itemId } = req.params;
   Item.findById(itemId)
     .populate("category", "name")
+    .populate("image")
     .exec(function (err, found_item) {
       if (err) return next(err);
       res.render("item_delete", { title: "Delete Item", item: found_item });
@@ -303,9 +304,22 @@ exports.item_delete_get = (req, res, next) => {
 
 exports.item_delete_post = (req, res, next) => {
   const { itemId } = req.params;
-  Item.findByIdAndRemove(itemId, (err) => {
-    if (err) return next(err);
-    // Success so redirect
-    res.redirect("/store/items");
-  });
+  async.parallel(
+    {
+      item(callback) {
+        Item.findById(itemId).exec(callback);
+      },
+    },
+    (error, results) => {
+      if (error) return next(err);
+      Image.findByIdAndRemove(results.item.image._id, (err) => {
+        if (err) return next(err);
+      });
+      Item.findByIdAndRemove(itemId, (err) => {
+        if (err) return next(err);
+        // Success so redirect
+        res.redirect("/store/items");
+      });
+    }
+  );
 };

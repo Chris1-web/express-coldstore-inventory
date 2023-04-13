@@ -3,14 +3,14 @@ include mixins/nav
 
 block content 
     +nav("add-item")
-
+    - var b64 = Buffer.from(item.image.file.data).toString('base64')
     div(class="max-w-7xl mx-auto bg-custom-yellow h-custom-screen-80 overflow-scroll rounded-t-3xl text-black")
         h1(class="text-center text-5xl mt-10") Delete Item
         p(class="text-3xl text-center my-5 text-red-400") Note that this action cannot be reversed
         //- item container
         div(class="list-container h-3/6 flex gap-10 items-center p-8 bg-white rounded-2xl mx-10")
             div(class="item-image max-w-[40%]")
-                img(src="/images/chicken-gizzard.jpeg" class="border-4 border-gray-300 rounded-[50px]")
+                img(src=`data:${mimeType};base64,${b64}` class="border-4 border-gray-300 rounded-[50px]")
             div(class="item-information flex flex-col gap-10 justify-between")
                 div(class="top-information flex justify-between items-center")
                     h3(class="text-5xl text-custom-blue") #{item.name}

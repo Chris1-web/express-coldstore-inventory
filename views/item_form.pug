@@ -21,7 +21,7 @@ block content
                     p(class="text-3xl") Upload a picture of your item.
                     p(class="text-sm") SVG, JPG, PNG (rec. 700px x 430px)
                 div(class="image-file w-1/4 relative")
-                    input(type="file" class="opacity-0 absolute -top-2/4" name="item_image" id="file-upload" value=(item_detail ? item_detail.image.fileName: "") required)
+                    input(type="file" class="opacity-0 absolute -top-2/4" name="item_image" id="file-upload" required)
                     div(class="browse-btn cursor-pointer border border-dashed text-xl text-center px-3 py-2 border-slate-400 rounded-xl") Browse
             div(class="upload-image-name") #{item_detail ? item_detail.image.fileName : ""}
             div(class="item-name-container mb-10")
