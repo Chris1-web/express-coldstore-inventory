@@ -169,7 +169,7 @@ exports.item_update_get = (req, res, next) => {
   async.parallel(
     {
       item_detail(callback) {
-        Item.findById(itemId).populate("image").exec(callback);
+        Item.findById(itemId).exec(callback);
       },
       category_list(callback) {
         Category.find({}).exec(callback);
@@ -247,24 +247,16 @@ exports.item_update_post = [
       async.parallel(
         {
           item(callback) {
-            Item.findById(itemId).exec(callback);
+            Item.findById(itemId).populate("image").exec(callback);
           },
         },
         (error, results) => {
           if (error) return next(error);
-          const editedImage = new Image({
-            _id: results.item.image,
-            fileName: req.file.originalname,
-            file: {
-              data: req.file.buffer,
-              contentType: req.file.mimetype,
-            },
-          });
           // create an item with trimmed and escaped form data
           const item = new Item({
             _id: itemId,
             category: req.body.chosen_category,
-            image: editedImage._id,
+            image: results.item.image._id,
             name: req.body.item_name,
             price: req.body.price,
             summary: req.body.item_summary,
@@ -277,14 +269,6 @@ exports.item_update_post = [
             // successful, so redirect
             res.redirect(`/store/item/${newItem.category}`);
           });
-          Image.findByIdAndUpdate(
-            editedImage._id,
-            editedImage,
-            {},
-            (err, newImage) => {
-              if (err) return next(err);
-            }
-          );
         }
       );
     }

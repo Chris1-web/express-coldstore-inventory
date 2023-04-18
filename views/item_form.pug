@@ -14,16 +14,18 @@ block content
                     li(class="text-red-600 text-xl") #{error.msg}
 
         form(class="text-slate-500 flex flex-col px-20" method="post" enctype="multipart/form-data")
-            label(for="item_image" class="text-black text-3xl pb-3") Picture 
-            div(class="image-upload-container flex justify-between items-center bg-white w-3/5 p-5 mb-7 border border-dashed border-slate-400")
-                img(src='/images/imgicon.png' class="w-12 h-auto")
-                div(class="text-slate-400")
-                    p(class="text-3xl") Upload a picture of your item.
-                    p(class="text-sm") SVG, JPG, PNG (rec. 700px x 430px)
-                div(class="image-file w-1/4 relative")
-                    input(type="file" class="opacity-0 absolute -top-2/4" name="item_image" id="file-upload" required)
-                    div(class="browse-btn cursor-pointer border border-dashed text-xl text-center px-3 py-2 border-slate-400 rounded-xl") Browse
-            div(class="upload-image-name") #{item_detail ? item_detail.image.fileName : ""}
+            //- if the image is not being edited, picture input should be visible
+            if item_detail === undefined
+                label(for="item_image" class="text-black text-3xl pb-3") Picture 
+                div(class="image-upload-container flex justify-between items-center bg-white w-3/5 p-5 mb-7 border border-dashed border-slate-400")
+                    img(src='/images/imgicon.png' class="w-12 h-auto")
+                    div(class="text-slate-400")
+                        p(class="text-3xl") Upload a picture of your item.
+                        p(class="text-sm") SVG, JPG, PNG (rec. 700px x 430px)
+                    div(class="image-file w-1/4 relative")
+                        input(type="file" class="opacity-0 absolute -top-2/4" name="item_image" id="file-upload" required)
+                        div(class="browse-btn cursor-pointer border border-dashed text-xl text-center px-3 py-2 border-slate-400 rounded-xl") Browse
+                div(class="upload-image-name") #{item_detail ? item_detail.image.fileName : ""}
             div(class="item-name-container mb-10")
                 label(for="item_name" class="text-black text-3xl pb-4") Name *
                 p(class="text-lg text-slate-400 pb-2") 100 characters max 
@@ -46,7 +48,7 @@ block content
                 input(type="number" name="price" value=(item_detail ? item_detail.price : 0) min=0 id="price" class="border-2 w-3/5 p-2 text-2xl rounded-xl focus:border-yellow-500 outline-none" required)
             button(class="flex text-white bg-yellow-500 justify-center py-3 px-5 w-1/5 mb-4 gap-3 text-3xl font-bold border rounded-2xl") 
                 img(src="/images/mark.png") 
-                p #{update ? "Update": "Publish"}
+                p #{item_detail ? "Update": "Publish"}
 
 
     script.
@@ -58,7 +60,7 @@ block content
             fileUploadHiddenButton.click()
         }
 
-        browseButton.addEventListener("click", callHiddenBrowseButton)
-        fileUploadHiddenButton.addEventListener("change", ()=> {
+        browseButton?.addEventListener("click", callHiddenBrowseButton)
+        fileUploadHiddenButton?.addEventListener("change", ()=> {
             uploadedImageName.textContent = fileUploadHiddenButton.value.replace("fakepath", "");
         })
