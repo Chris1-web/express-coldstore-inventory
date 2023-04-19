@@ -17,14 +17,37 @@ You will need to have Node.js and npm (Node Package Manager) installed on your m
 1. Clone the repository to your local machine
 
 ```
-    git clone https://github.com/Chris1-web/express-coldstore-inventory.git
+git clone https://github.com/Chris1-web/express-coldstore-inventory.git
 ```
 
 2. Install NPM Packages
 
 ```
-    npm install
+npm install
 ```
+
+3. Create a .env file in the root directory of the project and add the following environment variables:
+   MONGO_DB_ATLAS_URI - MongoDB Atlas connection string OR MONGO_DB_LOCAL_URI - MongoDB local connection string (if you want to use local MongoDB instance, BUT you need to have MongoDB installed on your machine and running, Also you need to change the name where MONGO_DB_ATLAS_URI is used)
+
+4. Populate the database
+
+```
+npm run populate
+```
+
+5. Run the app
+
+```
+npm run devstart
+```
+
+6. Run the tailwindcss
+
+```
+npm run tailwindstart
+```
+
+The application would start at http://localhost:3000
 
 <!-- https://blogs.yasharyan.com/store-images-on-mongodb ---- store image on MONGO DB
 
