@@ -49,10 +49,7 @@ npm run tailwindstart
 
 The application would start at http://localhost:3000
 
-<!-- https://blogs.yasharyan.com/store-images-on-mongodb ---- store image on MONGO DB
+##### Useful links
 
-I spent hours looking for how to implement filter in items page
-
-https://stackoverflow.com/questions/8698534/how-to-pass-variable-from-jade-template-file-to-a-script-file
-
-https://github.com/expressjs/multer ---- multer documentary but limited for my current use -->
+https://blogs.yasharyan.com/store-images-on-mongodb
+https://github.com/expressjs/multer
