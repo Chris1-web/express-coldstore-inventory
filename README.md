@@ -4,6 +4,28 @@
 
 Express Coldstore Inventory is an inventory management app made with NodeJs, Express, and MongoDB for an imaginary coldroom listing food items that can be freezed. With this app, visitors can create, read, update and delete categories of food items.
 
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+### Prerequisites
+
+You will need to have Node.js and npm (Node Package Manager) installed on your machine. You can download and install them from the official website (https://nodejs.org/en/). You would also need knowledge of Express and MongoDB.
+
+### Installing
+
+1. Clone the repository to your local machine
+
+```
+    git clone https://github.com/Chris1-web/express-coldstore-inventory.git
+```
+
+2. Install NPM Packages
+
+```
+    npm install
+```
+
 <!-- https://blogs.yasharyan.com/store-images-on-mongodb ---- store image on MONGO DB
 
 I spent hours looking for how to implement filter in items page
