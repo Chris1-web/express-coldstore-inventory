@@ -48,6 +48,7 @@ npm run tailwindstart
 ```
 
 The application would start at http://localhost:3000
+This project is live on https://express-coldstore-inventory.onrender.com
 
 ##### Useful links
 
